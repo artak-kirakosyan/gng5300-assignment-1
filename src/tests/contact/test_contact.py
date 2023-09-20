@@ -11,6 +11,7 @@ class TestContact(unittest.TestCase):
     """
     Basic unit tests for Contact class
     """
+
     def setUp(self):
         self.contact = Contact(
             first_name="John",
