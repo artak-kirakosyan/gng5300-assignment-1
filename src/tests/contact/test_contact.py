@@ -33,24 +33,24 @@ class TestContact(unittest.TestCase):
     def test_update_first_name(self):
         self.contact.first_name = "Jane"
         self.assertEqual(self.contact.first_name, "Jane")
-        self.assertNotEqual(self.contact.updated_date, self.contact.created_date)
+        self.assertGreater(self.contact.updated_date, self.contact.created_date)
 
     def test_update_last_name(self):
         self.contact.last_name = "Smith"
         self.assertEqual(self.contact.last_name, "Smith")
-        self.assertNotEqual(self.contact.updated_date, self.contact.created_date)
+        self.assertGreater(self.contact.updated_date, self.contact.created_date)
 
     def test_update_phone_number(self):
         self.contact.phone_number = "987-654-3210"
         self.assertEqual(self.contact.phone_number, "987-654-3210")
-        self.assertNotEqual(self.contact.updated_date, self.contact.created_date)
+        self.assertGreater(self.contact.updated_date, self.contact.created_date)
 
     def test_update_email(self):
         self.contact.email = "jane@example.com"
         self.assertEqual(self.contact.email, "jane@example.com")
-        self.assertNotEqual(self.contact.updated_date, self.contact.created_date)
+        self.assertGreater(self.contact.updated_date, self.contact.created_date)
 
     def test_update_address(self):
         self.contact.address = "456 Elm St"
         self.assertEqual(self.contact.address, "456 Elm St")
-        self.assertNotEqual(self.contact.updated_date, self.contact.created_date)
+        self.assertGreater(self.contact.updated_date, self.contact.created_date)
