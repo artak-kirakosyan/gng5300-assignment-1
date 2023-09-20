@@ -1,0 +1,5 @@
+[MAIN]
+disable=too-many-arguments,
+        missing-function-docstring
+[FORMAT]
+max-line-length=119
