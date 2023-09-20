@@ -1,8 +1,17 @@
+"""
+This module contains the definition of the Contact entry
+"""
 import datetime
 from typing import Optional
 
 
 class Contact:
+    """
+    This class is intended for storing a single contact and its arguments.
+    The updated date of the class is automatically refreshed once a change is made to the class fields.
+    This can be controlled by the property setters. just call the __refresh_updated_date method on any setter
+    you want to keep track of
+    """
     _first_name: str
     _last_name: str
     _phone_number: str

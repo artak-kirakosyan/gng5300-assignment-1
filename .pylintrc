@@ -1,0 +1,6 @@
+[MAIN]
+disable=too-many-arguments,
+        missing-function-docstring,
+        too-many-instance-attributes
+[FORMAT]
+max-line-length=119
