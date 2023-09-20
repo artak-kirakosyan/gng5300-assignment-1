@@ -1,3 +1,4 @@
+import datetime
 from typing import Optional
 
 
@@ -15,3 +16,5 @@ class Contact:
         self.phone_number = phone_number
         self.email = email
         self.address = address
+        self.created_date = datetime.datetime.now()
+        self.updated_date = datetime.datetime.now()
