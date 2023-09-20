@@ -4,7 +4,7 @@ Tests for Contact class
 import unittest
 from datetime import datetime
 
-from contact.contact import Contact
+from contacts.contact import Contact
 
 
 class TestContact(unittest.TestCase):
