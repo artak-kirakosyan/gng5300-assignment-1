@@ -16,6 +16,7 @@ class TestPhoneBookController(unittest.TestCase):
         self.assertIn("2 - Exit", output)
 
     @patch("builtins.input", side_effect=["2"])
-    def test_run_exit_action(self, mock_input):
+    def test_run_exit_action(self, mock_input=None):
+        assert mock_input
         phone_book_controller = PhoneBookController()
         phone_book_controller.run()
