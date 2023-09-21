@@ -5,7 +5,7 @@ import unittest
 from datetime import datetime
 
 from contacts.contact import Contact
-from exceptions.exceptions import InvalidPhoneNumberException
+from exceptions.exceptions import InvalidPhoneNumberException, InvalidEmailException
 
 
 class TestContact(unittest.TestCase):
@@ -86,7 +86,7 @@ class TestPhoneNumberPattern(unittest.TestCase):
 
         for phone_number in valid_phone_numbers:
             with self.subTest(phone_number=phone_number):
-                self.assertTrue(Contact._PHONE_NUMBER_PATTERN.match(phone_number))
+                Contact.validate_phone_number(phone_number)
 
     def test_invalid_phone_numbers(self):
         invalid_phone_numbers = [
@@ -101,7 +101,8 @@ class TestPhoneNumberPattern(unittest.TestCase):
 
         for phone_number in invalid_phone_numbers:
             with self.subTest(phone_number=phone_number):
-                self.assertFalse(Contact._PHONE_NUMBER_PATTERN.match(phone_number))
+                with self.assertRaises(InvalidPhoneNumberException):
+                    Contact.validate_phone_number(phone_number)
 
 
 class TestEmailPattern(unittest.TestCase):
@@ -114,7 +115,7 @@ class TestEmailPattern(unittest.TestCase):
 
         for email in valid_emails:
             with self.subTest(email=email):
-                self.assertTrue(Contact._EMAIL_PATTERN.match(email))
+                Contact.validate_email(email)
 
     def test_invalid_emails(self):
         invalid_emails = [
@@ -130,4 +131,5 @@ class TestEmailPattern(unittest.TestCase):
 
         for email in invalid_emails:
             with self.subTest(email=email):
-                self.assertFalse(Contact._EMAIL_PATTERN.match(email))
+                with self.assertRaises(InvalidEmailException):
+                    Contact.validate_email(email)
