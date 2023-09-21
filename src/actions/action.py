@@ -22,13 +22,7 @@ class ContactCreateAction(Action):
     name = "Create Contract"
 
     def execute(self, phone_book: PhoneBook):
-        first_name = input("Enter First Name: ")
-        last_name = input("Enter Last Name: ")
-        phone_number = input("Enter Phone Number: ")
-        email = input("Enter Email (optional): ")
-        address = input("Enter Address (optional): ")
-
-        contact = Contact(first_name, last_name, phone_number, email, address)
+        contact = Contact.create_contract_from_command_line()
         phone_book.add_contact(contact)
 
 
