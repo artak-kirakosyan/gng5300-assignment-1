@@ -125,6 +125,7 @@ class Contact:
         phone_number = input("Enter Phone Number: ")
         cls.validate_phone_number(phone_number)
         email = input("Enter Email (optional): ")
+        cls.validate_email(email)
         address = input("Enter Address (optional): ")
 
         contact = cls(first_name, last_name, phone_number, email, address)
