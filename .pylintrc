@@ -1,6 +1,10 @@
 [MAIN]
 disable=too-many-arguments,
+        too-many-instance-attributes,
+        missing-module-docstring,
+        missing-class-docstring,
         missing-function-docstring,
-        too-many-instance-attributes
+        too-few-public-methods
+
 [FORMAT]
 max-line-length=119

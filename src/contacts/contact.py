@@ -91,3 +91,7 @@ class Contact:
     @property
     def updated_date(self):
         return self.__updated_date
+
+    @property
+    def full_name(self) -> str:
+        return self.first_name + " " + self.last_name
