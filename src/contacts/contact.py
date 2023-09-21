@@ -2,7 +2,10 @@
 This module contains the definition of the Contact entry
 """
 import datetime
+import re
 from typing import Optional
+
+from exceptions.exceptions import InvalidPhoneNumberException, InvalidEmailException
 
 
 class Contact:
@@ -12,6 +15,9 @@ class Contact:
     This can be controlled by the property setters. just call the __refresh_updated_date method on any setter
     you want to keep track of
     """
+    _PHONE_NUMBER_PATTERN = re.compile(r"^\(\d{3}\) \d{3}-\d{4}$")
+    _EMAIL_PATTERN = re.compile(r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}$')
+
     _first_name: str
     _last_name: str
     _phone_number: str
@@ -28,6 +34,8 @@ class Contact:
             email: Optional[str] = None,
             address: Optional[str] = None
     ):
+        self.validate_phone_number(phone_number)
+        self.validate_email(email)
         self._first_name = first_name
         self._last_name = last_name
         self._phone_number = phone_number
@@ -97,10 +105,25 @@ class Contact:
         return self.first_name + " " + self.last_name
 
     @classmethod
+    def validate_phone_number(cls, phone_number: str):
+        if phone_number is None:
+            raise InvalidPhoneNumberException("Phone number is required")
+        if cls._PHONE_NUMBER_PATTERN.match(phone_number) is None:
+            raise InvalidPhoneNumberException("Phone number should be of the form (###) ###-####")
+
+    @classmethod
+    def validate_email(cls, email: str):
+        if email is None:
+            return
+        if cls._EMAIL_PATTERN.match(email) is None:
+            raise InvalidEmailException("Invalid email")
+
+    @classmethod
     def create_contract_from_command_line(cls) -> 'Contact':
         first_name = input("Enter First Name: ")
         last_name = input("Enter Last Name: ")
         phone_number = input("Enter Phone Number: ")
+        cls.validate_phone_number(phone_number)
         email = input("Enter Email (optional): ")
         address = input("Enter Address (optional): ")
 

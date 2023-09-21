@@ -10,7 +10,7 @@ class TestAction(unittest.TestCase):
     def test_contact_create_action(self):
         phone_book = PhoneBook()
         action = ContactCreateAction()
-        with patch("builtins.input", side_effect=["John", "Doe", "123-456-7890", "", ""]):
+        with patch("builtins.input", side_effect=["John", "Doe", "(123) 456-7890", None, ""]):
             action.execute(phone_book)
         self.assertEqual(len(phone_book.contacts), 1)
 

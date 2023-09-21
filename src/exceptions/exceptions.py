@@ -4,3 +4,11 @@ class BasePhoneBookException(RuntimeError):
 
 class TerminateActionLoopException(BasePhoneBookException):
     """This exception is used to terminate the work of the phone book action loop"""
+
+
+class InvalidPhoneNumberException(BasePhoneBookException):
+    """Throw when the phone number is not valid"""
+
+
+class InvalidEmailException(BasePhoneBookException):
+    """Throw when the email is not valid"""
