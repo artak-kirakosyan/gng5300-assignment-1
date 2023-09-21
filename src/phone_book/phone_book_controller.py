@@ -47,6 +47,6 @@ class PhoneBookController:
             except TerminateActionLoopException:
                 print("Bye")
                 break
-            except BasePhoneBookException as e:
-                print("The following error occurred: %s" % e)
+            except BasePhoneBookException as exception:
+                print(f"The following error occurred: {exception}")
                 continue
