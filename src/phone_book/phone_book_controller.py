@@ -3,8 +3,8 @@ This module contains the definition of the PhoneBookController entry
 """
 from typing import Optional, Dict, Set
 
+from actions.action import ContactCreateAction, ExitAction, Action
 from exceptions.exceptions import TerminateActionLoopException, BasePhoneBookException
-from phone_book.actions.action import Action, ContactCreateAction, ExitAction
 from phone_book.phone_book import PhoneBook
 
 

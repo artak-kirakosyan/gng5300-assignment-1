@@ -1,5 +1,10 @@
 from phone_book.phone_book_controller import PhoneBookController
 
-if __name__ == "__main__":
+
+def main():
     c = PhoneBookController()
     c.run()
+
+
+if __name__ == "__main__":
+    main()
