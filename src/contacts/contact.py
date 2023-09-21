@@ -95,3 +95,14 @@ class Contact:
     @property
     def full_name(self) -> str:
         return self.first_name + " " + self.last_name
+
+    @classmethod
+    def create_contract_from_command_line(cls) -> 'Contact':
+        first_name = input("Enter First Name: ")
+        last_name = input("Enter Last Name: ")
+        phone_number = input("Enter Phone Number: ")
+        email = input("Enter Email (optional): ")
+        address = input("Enter Address (optional): ")
+
+        contact = cls(first_name, last_name, phone_number, email, address)
+        return contact
