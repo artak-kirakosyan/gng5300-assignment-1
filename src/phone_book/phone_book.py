@@ -9,8 +9,10 @@ from contacts.contact import Contact
 class PhoneBook:
     _contacts: List[Contact]
 
-    def __init__(self):
-        self._contacts = []
+    def __init__(self, contacts: List[Contact] = None):
+        if contacts is None:
+            contacts = []
+        self._contacts = contacts
 
     @property
     def contacts(self):

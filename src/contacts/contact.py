@@ -56,8 +56,8 @@ class Contact:
         self.__updated_date = datetime.datetime.now()
 
     @property
-    def contact_id(self):
-        return self._id
+    def contact_id(self) -> str:
+        return str(self._id)
 
     @property
     def first_name(self):
