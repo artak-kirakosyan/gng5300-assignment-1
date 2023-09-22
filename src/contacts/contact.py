@@ -5,6 +5,7 @@ import datetime
 import re
 from typing import Optional
 
+from audit import get_logger_by_name
 from exceptions.exceptions import InvalidPhoneNumberException, InvalidEmailException
 
 
@@ -15,6 +16,7 @@ class Contact:
     This can be controlled by the property setters. just call the __refresh_updated_date method on any setter
     you want to keep track of
     """
+    logger = get_logger_by_name("ContactLogger")
     _PHONE_NUMBER_PATTERN = re.compile(r"^\(\d{3}\) \d{3}-\d{4}$")
     _EMAIL_PATTERN = re.compile(r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}$')
 
@@ -35,6 +37,8 @@ class Contact:
             address: Optional[str] = None
     ):
         self.validate_phone_number(phone_number)
+        self.validate_name(first_name)
+        self.validate_name(last_name)
         self.validate_email(email)
         self._first_name = first_name
         self._last_name = last_name
@@ -43,6 +47,7 @@ class Contact:
         self._address = address
         self.__created_date = datetime.datetime.now()
         self.__refresh_updated_date()
+        self.logger.info("Contact %s created", self.full_name)
 
     def __refresh_updated_date(self):
         self.__updated_date = datetime.datetime.now()
@@ -119,14 +124,53 @@ class Contact:
             raise InvalidEmailException("Invalid email")
 
     @classmethod
-    def create_contract_from_command_line(cls) -> 'Contact':
-        first_name = input("Enter First Name: ")
-        last_name = input("Enter Last Name: ")
-        phone_number = input("Enter Phone Number: ")
-        cls.validate_phone_number(phone_number)
-        email = input("Enter Email (optional): ")
-        cls.validate_email(email)
-        address = input("Enter Address (optional): ")
+    def validate_name(cls, first_name: str):
+        if first_name is None:
+            raise InvalidEmailException("Invalid email")
 
+    @classmethod
+    def create_contract_from_command_line(cls) -> 'Contact':
+        first_name = cls._get_validated_first_name()
+        last_name = cls._get_validated_last_name()
+        phone_number = cls.get_validated_phone_number()
+        email = cls.get_validated_email()
+        address = cls.get_validated_address()
         contact = cls(first_name, last_name, phone_number, email, address)
         return contact
+
+    @classmethod
+    def get_validated_phone_number(cls):
+        phone_number = input("Enter Phone Number: ")
+        cls.validate_phone_number(phone_number)
+        return phone_number
+
+    @classmethod
+    def get_validated_address(cls):
+        address = input("Enter Address (optional): ")
+        if address == "":
+            address = None
+        return address
+
+    @classmethod
+    def get_validated_email(cls):
+        email = input("Enter Email (optional): ")
+        if email == "":
+            email = None
+        cls.validate_email(email)
+        return email
+
+    @classmethod
+    def _get_validated_first_name(cls):
+        first_name = input("Enter First Name: ")
+        if first_name == "":
+            first_name = None
+        cls.validate_name(first_name)
+        return first_name
+
+    @classmethod
+    def _get_validated_last_name(cls):
+        last_name = input("Enter Last Name: ")
+        if last_name == "":
+            last_name = None
+        cls.validate_name(last_name)
+        return last_name

@@ -4,11 +4,13 @@ This module contains the definition of the PhoneBookController entry
 from typing import Optional, Dict, Set
 
 from actions.action import ContactCreateAction, ExitAction, Action
+from audit import get_logger_by_name
 from exceptions.exceptions import TerminateActionLoopException, BasePhoneBookException
 from phone_book.phone_book import PhoneBook
 
 
 class PhoneBookController:
+    logger = get_logger_by_name("PhoneBookController")
     __DEFAULT_ACTIONS = [
         ContactCreateAction,
         ExitAction
@@ -39,14 +41,14 @@ class PhoneBookController:
             self.show_actions()
             choice = input("Select an action: ")
             if choice not in self.__actions:
-                print("Invalid choice. Please select a valid action.")
+                self.logger.error("Invalid choice '%s'. Please select a valid action.", choice)
                 continue
             action = self.__actions[choice]
             try:
                 action.execute(self.phone_book)
             except TerminateActionLoopException:
-                print("Bye")
+                self.logger.info("Exiting")
                 break
             except BasePhoneBookException as exception:
-                print(f"The following error occurred: {exception}")
+                self.logger.error("The following error occurred: %s", str(exception))
                 continue

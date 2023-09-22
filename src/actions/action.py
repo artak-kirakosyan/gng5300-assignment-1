@@ -1,5 +1,6 @@
 import abc
 
+from audit import get_logger_by_name
 from contacts.contact import Contact
 from exceptions.exceptions import TerminateActionLoopException
 from phone_book.phone_book import PhoneBook
@@ -20,6 +21,7 @@ class Action(abc.ABC):
 
 class ContactCreateAction(Action):
     name = "Create Contract"
+    logger = get_logger_by_name("ContactCreateLogger")
 
     def execute(self, phone_book: PhoneBook):
         contact = Contact.create_contract_from_command_line()
@@ -28,6 +30,7 @@ class ContactCreateAction(Action):
 
 class ExitAction(Action):
     name = "Exit"
+    logger = get_logger_by_name("ExitLogger")
 
     def execute(self, phone_book: PhoneBook):
         raise TerminateActionLoopException()
