@@ -5,7 +5,7 @@ from typing import List
 
 from audit import get_logger_by_name
 from contacts.contact import Contact
-from exceptions.exceptions import ContactAlreadyExists, NoContactsMatched
+from exceptions.exceptions import ContactAlreadyExists, NoContactsMatched, ContactIsNotRegistered
 
 
 class PhoneBook:
@@ -40,6 +40,8 @@ class PhoneBook:
         return contacts
 
     def delete_contact(self, contact: Contact):
+        if contact not in self.contacts:
+            raise ContactIsNotRegistered(f"Contact {contact.contact_id} is not registered")
         self.contacts.remove(contact)
         self.logger.info("Contact '%s'(id=%s) deleted", contact.full_name, contact.contact_id)
 

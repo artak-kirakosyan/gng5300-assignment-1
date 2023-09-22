@@ -20,3 +20,7 @@ class ContactAlreadyExists(BasePhoneBookException):
 
 class NoContactsMatched(BasePhoneBookException):
     """Throw when no contacts were matched but a match was expected"""
+
+
+class ContactIsNotRegistered(BasePhoneBookException):
+    """Throw when the contact is not registered in phone book"""
