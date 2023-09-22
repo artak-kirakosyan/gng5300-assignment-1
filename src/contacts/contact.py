@@ -50,13 +50,13 @@ class Contact:
         self._address = address
         self.__created_date = datetime.datetime.now()
         self.__refresh_updated_date()
-        self.logger.info("Contact '%s'(%s) created", self.full_name, self._id)
+        self.logger.info("Contact '%s'(id=%s) created", self.full_name, self.contact_id)
 
     def __refresh_updated_date(self):
         self.__updated_date = datetime.datetime.now()
 
     @property
-    def id(self):
+    def contact_id(self):
         return self._id
 
     @property
