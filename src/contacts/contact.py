@@ -7,6 +7,7 @@ import uuid
 from typing import Optional
 
 from audit import get_logger_by_name
+from contacts.filter import ContactFilter
 from exceptions.exceptions import InvalidPhoneNumberException, InvalidEmailException
 
 
@@ -181,3 +182,22 @@ class Contact:
             last_name = None
         cls.validate_name(last_name)
         return last_name
+
+    def matches(self, contact_filter: ContactFilter):
+        if contact_filter is None:
+            return True
+        if contact_filter.max_created_date is not None:
+            if self.created_date > contact_filter.max_created_date:
+                return False
+        if contact_filter.min_created_date is not None:
+            if self.created_date < contact_filter.min_created_date:
+                return False
+
+        if contact_filter.max_updated_date is not None:
+            if self.updated_date > contact_filter.max_updated_date:
+                return False
+        if contact_filter.min_updated_date is not None:
+            if self.updated_date < contact_filter.min_updated_date:
+                return False
+        # TODO implement match by search query
+        return True
