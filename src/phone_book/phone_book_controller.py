@@ -3,7 +3,7 @@ This module contains the definition of the PhoneBookController entry
 """
 from typing import Optional, Dict, Set
 
-from actions.action import ContactCreateAction, ExitAction, Action, ShowContacts
+from actions.action import ContactCreateAction, ExitAction, Action, ShowContacts, DeleteContact
 from audit import get_logger_by_name
 from exceptions.exceptions import TerminateActionLoopException, BasePhoneBookException
 from phone_book.phone_book import PhoneBook
@@ -14,6 +14,7 @@ class PhoneBookController:
     __DEFAULT_ACTIONS = [
         ContactCreateAction,
         ShowContacts,
+        DeleteContact,
         ExitAction
     ]
     _phone_book: PhoneBook

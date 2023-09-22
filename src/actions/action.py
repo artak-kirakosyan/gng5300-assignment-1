@@ -1,8 +1,8 @@
 import abc
 
 from audit import get_logger_by_name
-from contacts.contact_printer import ContactPrinter
 from contacts.contact import Contact
+from contacts.contact_printer import ContactPrinter
 from exceptions.exceptions import TerminateActionLoopException
 from phone_book.phone_book import PhoneBook
 
@@ -39,7 +39,7 @@ class ExitAction(Action):
 
 class ShowContacts(Action):
     name = "Show Contacts"
-    logger = get_logger_by_name("ExitLogger")
+    logger = get_logger_by_name("ShowLogger")
 
     def execute(self, phone_book: PhoneBook):
         printer = ContactPrinter()
@@ -49,3 +49,16 @@ class ShowContacts(Action):
         print(printer.get_headers())
         for contact in phone_book.contacts:
             print(printer.to_line(contact))
+
+
+class DeleteContact(Action):
+    name = "Delete Contact"
+    logger = get_logger_by_name("DeleteLogger")
+
+    def execute(self, phone_book: PhoneBook):
+        contact_id = input("Enter the contact id to delete: ")
+        contacts = phone_book.retrieve_contacts_by_id(contact_id)
+
+        print(f"Found {len(contacts)} contacts by {contact_id}")
+        phone_book.delete_contacts_by_id(contact_id)
+        print(f"Contact {contact_id} successfully deleted")
