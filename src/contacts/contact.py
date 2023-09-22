@@ -201,7 +201,6 @@ class Contact:
             if self.updated_date < contact_filter.min_updated_date:
                 return False
         if contact_filter.search_query is not None:
-            query_components = ""
             values_to_match = [self.first_name, self.last_name, self.phone_number, self.email, self.address]
             match_results = [
                 self.is_value_matching_query(contact_filter.search_query, value) for value in values_to_match

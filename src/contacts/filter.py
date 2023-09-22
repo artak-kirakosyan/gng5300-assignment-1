@@ -28,7 +28,7 @@ class ContactFilter:
     sort_field: ContactSort = ContactSort.UPDATED_DATE
 
     def __str__(self):
-        filter_str = f"Filter:\n"
+        filter_str = "Filter:\n"
         filter_str += f"  Search Query: {self.search_query}\n"
         filter_str += f"  Min Created Date: {self.min_created_date}\n"
         filter_str += f"  Max Created Date: {self.max_created_date}\n"
