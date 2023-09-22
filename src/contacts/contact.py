@@ -3,6 +3,7 @@ This module contains the definition of the Contact entry
 """
 import datetime
 import re
+import uuid
 from typing import Optional
 
 from audit import get_logger_by_name
@@ -20,6 +21,7 @@ class Contact:
     _PHONE_NUMBER_PATTERN = re.compile(r"^\(\d{3}\) \d{3}-\d{4}$")
     _EMAIL_PATTERN = re.compile(r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}$')
 
+    _id: uuid.UUID
     _first_name: str
     _last_name: str
     _phone_number: str
@@ -36,6 +38,7 @@ class Contact:
             email: Optional[str] = None,
             address: Optional[str] = None
     ):
+        self._id = uuid.uuid4()
         self.validate_phone_number(phone_number)
         self.validate_name(first_name)
         self.validate_name(last_name)
@@ -47,10 +50,14 @@ class Contact:
         self._address = address
         self.__created_date = datetime.datetime.now()
         self.__refresh_updated_date()
-        self.logger.info("Contact %s created", self.full_name)
+        self.logger.info("Contact '%s'(%s) created", self.full_name, self._id)
 
     def __refresh_updated_date(self):
         self.__updated_date = datetime.datetime.now()
+
+    @property
+    def id(self):
+        return self._id
 
     @property
     def first_name(self):
