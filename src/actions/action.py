@@ -3,8 +3,22 @@ import abc
 from audit import get_logger_by_name
 from contacts.contact import Contact
 from contacts.contact_printer import ContactPrinter
-from exceptions.exceptions import TerminateActionLoopException
+from exceptions.exceptions import TerminateActionLoopException, InvalidActionException
 from phone_book.phone_book import PhoneBook
+
+
+def get_boolean_from_user(message: str) -> bool:
+    user_input = input(message)
+    inp = user_input.lower()
+    valid_yes = ['yes', 'y']
+    valid_no = ['no', 'n']
+    if inp in valid_yes:
+        user_boolean = True
+    elif inp in valid_no:
+        user_boolean = False
+    else:
+        raise InvalidActionException("Invalid action")
+    return user_boolean
 
 
 class Action(abc.ABC):
@@ -70,7 +84,7 @@ class UpdateFilter(Action):
     logger = get_logger_by_name("UpdateFilter")
 
     def execute(self, phone_book: PhoneBook):
-        """Show the current filter, iterate over the fields and update these"""
+        """Implement me"""
 
 
 class DeleteCurrentResults(Action):
@@ -84,7 +98,12 @@ class DeleteCurrentResults(Action):
             return
         print(f"Current filter matches {len(phone_book.current_results)} contacts shown below")
         ShowCurrentContacts().execute(phone_book)
-        # TODO ask for confirmation
+        is_sure = get_boolean_from_user(
+            "Are you sure you want to delete all these contacts? (Type 'Yes' or 'Y' to confirm): "
+        )
+        if not is_sure:
+            print("Operation cancelled")
+            return
         for contact in phone_book.current_results:
             phone_book.delete_contact(contact)
         print("Current contacts deleted")
@@ -96,7 +115,8 @@ class ShowCurrentContacts(Action):
 
     def execute(self, phone_book: PhoneBook):
         printer = ContactPrinter()
-        # TODO show the current filter
+        print("Current filter is:")
+        print(phone_book.contact_filter)
         if len(phone_book.current_results) == 0:
             print("No contacts matching current filter")
             return

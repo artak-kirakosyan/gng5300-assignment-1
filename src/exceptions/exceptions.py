@@ -14,13 +14,17 @@ class InvalidEmailException(BasePhoneBookException):
     """Throw when the email is not valid"""
 
 
-class ContactAlreadyExists(BasePhoneBookException):
+class ContactAlreadyExistsException(BasePhoneBookException):
     """Throw when the contact with a given id already exists"""
 
 
-class NoContactsMatched(BasePhoneBookException):
+class NoContactsMatchedException(BasePhoneBookException):
     """Throw when no contacts were matched but a match was expected"""
 
 
-class ContactIsNotRegistered(BasePhoneBookException):
+class ContactIsNotRegisteredException(BasePhoneBookException):
     """Throw when the contact is not registered in phone book"""
+
+
+class InvalidActionException(BasePhoneBookException):
+    """Throw when an invalid action is selected by the user"""

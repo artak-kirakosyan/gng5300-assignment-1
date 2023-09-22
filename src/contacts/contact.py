@@ -18,6 +18,7 @@ class Contact:
     This can be controlled by the property setters. just call the __refresh_updated_date method on any setter
     you want to keep track of
     """
+    _SEARCH_WILDCARD = "||"
     logger = get_logger_by_name("ContactLogger")
     _PHONE_NUMBER_PATTERN = re.compile(r"^\(\d{3}\) \d{3}-\d{4}$")
     _EMAIL_PATTERN = re.compile(r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}$')
@@ -199,5 +200,16 @@ class Contact:
         if contact_filter.min_updated_date is not None:
             if self.updated_date < contact_filter.min_updated_date:
                 return False
-        # TODO implement match by search query
+        if contact_filter.search_query is not None:
+            query_components = ""
+            values_to_match = [self.first_name, self.last_name, self.phone_number, self.email, self.address]
+            match_results = [
+                self.is_value_matching_query(contact_filter.search_query, value) for value in values_to_match
+            ]
+            if any(match_results):
+                return True
         return True
+
+    @classmethod
+    def is_value_matching_query(cls, search_query: str, value: str) -> bool:
+        """Implement me"""
