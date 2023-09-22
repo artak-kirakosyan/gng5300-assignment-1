@@ -27,6 +27,7 @@ class ContactCreateAction(Action):
     def execute(self, phone_book: PhoneBook):
         contact = Contact.create_contract_from_command_line()
         phone_book.add_contact(contact)
+        print(f"Contact '{contact.full_name}'(id={contact.contact_id}) created")
 
 
 class ExitAction(Action):
@@ -61,4 +62,4 @@ class DeleteContact(Action):
 
         print(f"Found {len(contacts)} contacts by {contact_id}")
         phone_book.delete_contacts_by_id(contact_id)
-        print(f"Contact {contact_id} successfully deleted")
+        print(f"Contacts with id:{contact_id} successfully deleted")
