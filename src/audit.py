@@ -67,7 +67,7 @@ def get_logger(log_config: LoggingSetup) -> logging.Logger:
     if log_config.file_name is None:
         log_config.file_name = log_config.name.lower() + ".log"
         logging.warning(
-            "No file specified, defaulting to '%s'" % log_config.file_name
+            "No file specified, defaulting to '%s'", log_config.file_name
         )
 
     file_name = log_config.log_directory.joinpath(log_config.file_name)
@@ -81,7 +81,7 @@ def get_logger(log_config: LoggingSetup) -> logging.Logger:
     file_handler.setLevel(log_config.file_level)
 
     logger.addHandler(file_handler)
-    logger.debug("Logger %s has been created" % logger.name)
+    logger.debug("Logger %s has been created", logger.name)
     return logger
 
 
