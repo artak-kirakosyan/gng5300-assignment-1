@@ -41,7 +41,7 @@ class ContactFilter:
         return filter_str
 
     @classmethod
-    def from_command_line(cls):
+    def update_from_command_line(cls, old: 'ContactFilter'):
         """Implement me"""
 
     @classmethod
