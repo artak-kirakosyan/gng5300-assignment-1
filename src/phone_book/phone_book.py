@@ -83,9 +83,9 @@ class PhoneBook:
     def apply(self, contact_filter: ContactFilter) -> List[Contact]:
         self.contact_filter = contact_filter
         self.current_results = list(filter(
-            lambda contact: contact.matches(self.contact_filter),
+            lambda contact: ContactFilter.matches(contact, self.contact_filter),
             self.contacts))
-        # self.current_results = self.sort_values(self.current_results, self.contact_filter)
+        self.current_results = self.sort_values(self.current_results, self.contact_filter)
         return self.current_results
 
     def refresh_current_results(self):
@@ -94,3 +94,6 @@ class PhoneBook:
     @staticmethod
     def sort_values(contacts: List[Contact], contact_filter: ContactFilter) -> List[Contact]:
         """Implement me"""
+        if contact_filter is None:
+            return contacts
+        return contacts

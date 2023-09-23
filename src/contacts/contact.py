@@ -7,7 +7,6 @@ import uuid
 from typing import Optional
 
 from audit import get_logger_by_name
-from contacts.filter import ContactFilter
 from exceptions.exceptions import InvalidPhoneNumberException, InvalidEmailException, InvalidNameException
 
 
@@ -187,33 +186,3 @@ class Contact:
             last_name = None
         cls.validate_name(last_name)
         return last_name
-
-    def matches(self, contact_filter: ContactFilter):
-        if contact_filter is None:
-            return True
-        if contact_filter.max_created_date is not None:
-            if self.created_date > contact_filter.max_created_date:
-                return False
-        if contact_filter.min_created_date is not None:
-            if self.created_date < contact_filter.min_created_date:
-                return False
-
-        if contact_filter.max_updated_date is not None:
-            if self.updated_date > contact_filter.max_updated_date:
-                return False
-        if contact_filter.min_updated_date is not None:
-            if self.updated_date < contact_filter.min_updated_date:
-                return False
-        if contact_filter.search_query is not None:
-            values_to_match = [self.first_name, self.last_name, self.phone_number, self.email, self.address]
-            match_results = [
-                self.is_value_matching_query(contact_filter.search_query, value) for value in values_to_match
-            ]
-            if any(match_results):
-                return True
-            return False
-        return True
-
-    @classmethod
-    def is_value_matching_query(cls, search_query: str, value: str) -> bool:
-        """Implement me"""

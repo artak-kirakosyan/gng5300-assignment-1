@@ -18,7 +18,7 @@ class Action(abc.ABC):
     @property
     @abc.abstractmethod
     def name(self):
-        """Implement me"""
+        """This name is used to show the action to the user"""
 
 
 class ContactCreateAction(Action):
