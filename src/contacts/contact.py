@@ -17,7 +17,6 @@ class Contact:
     This can be controlled by the property setters. just call the __refresh_updated_date method on any setter
     you want to keep track of
     """
-    _SEARCH_WILDCARD = "||"
     logger = get_logger_by_name("ContactLogger")
     _PHONE_NUMBER_PATTERN = re.compile(r"^\(\d{3}\) \d{3}-\d{4}$")
     _EMAIL_PATTERN = re.compile(r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}$')

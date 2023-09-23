@@ -102,4 +102,8 @@ class ContactFilter:
 
     @classmethod
     def is_value_matching_query(cls, search_query: str, value: str) -> bool:
-        """Implement me"""
+        if value is None:
+            return False
+        if search_query is None:
+            return True
+        return search_query.lower() in value.lower()
