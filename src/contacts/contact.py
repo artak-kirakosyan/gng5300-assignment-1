@@ -7,7 +7,7 @@ import uuid
 from typing import Optional
 
 from audit import get_logger_by_name
-from exceptions.exceptions import InvalidPhoneNumberException, InvalidEmailException
+from exceptions.exceptions import InvalidPhoneNumberException, InvalidEmailException, InvalidNameException
 
 
 class Contact:
@@ -56,8 +56,8 @@ class Contact:
         self.__updated_date = datetime.datetime.now()
 
     @property
-    def contact_id(self):
-        return self._id
+    def contact_id(self) -> str:
+        return str(self._id)
 
     @property
     def first_name(self):
@@ -65,6 +65,7 @@ class Contact:
 
     @first_name.setter
     def first_name(self, value: str):
+        self.validate_name(value)
         self._first_name = value
         self.__refresh_updated_date()
 
@@ -74,6 +75,7 @@ class Contact:
 
     @last_name.setter
     def last_name(self, value: str):
+        self.validate_name(value)
         self._last_name = value
         self.__refresh_updated_date()
 
@@ -83,6 +85,7 @@ class Contact:
 
     @phone_number.setter
     def phone_number(self, value: str):
+        self.validate_phone_number(value)
         self._phone_number = value
         self.__refresh_updated_date()
 
@@ -92,6 +95,7 @@ class Contact:
 
     @email.setter
     def email(self, value: Optional[str]):
+        self.validate_email(value)
         self._email = value
         self.__refresh_updated_date()
 
@@ -131,12 +135,12 @@ class Contact:
             raise InvalidEmailException("Invalid email")
 
     @classmethod
-    def validate_name(cls, first_name: str):
-        if first_name is None:
-            raise InvalidEmailException("Invalid email")
+    def validate_name(cls, name: str):
+        if name is None:
+            raise InvalidNameException("Invalid name")
 
     @classmethod
-    def create_contract_from_command_line(cls) -> 'Contact':
+    def create_contact_from_command_line(cls) -> 'Contact':
         first_name = cls._get_validated_first_name()
         last_name = cls._get_validated_last_name()
         phone_number = cls.get_validated_phone_number()
@@ -147,7 +151,7 @@ class Contact:
 
     @classmethod
     def get_validated_phone_number(cls):
-        phone_number = input("Enter Phone Number: ")
+        phone_number = input("Enter Phone Number(format: (###) ###-####): ")
         cls.validate_phone_number(phone_number)
         return phone_number
 
