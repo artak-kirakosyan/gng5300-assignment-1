@@ -28,7 +28,7 @@ class ContactCreateAction(Action):
     def execute(self, phone_book: PhoneBook):
         contact = Contact.create_contact_from_command_line()
         phone_book.add_contact(contact)
-        print(f"Contact '{contact.full_name}'(id={contact.id}) created")
+        print(f"Contact '{contact.full_name}'(id={contact.contact_id}) created")
 
 
 class ExitAction(Action):

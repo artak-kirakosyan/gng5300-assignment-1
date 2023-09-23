@@ -48,11 +48,11 @@ class PhoneBook:
         self._contact_filter = value
 
     def add_contact(self, contact: Contact):
-        if len(self.retrieve_contacts_by_id(contact.id)) != 0:
-            raise ContactAlreadyExistsException(f"Contact {contact.id} already exists")
+        if len(self.retrieve_contacts_by_id(contact.contact_id)) != 0:
+            raise ContactAlreadyExistsException(f"Contact {contact.contact_id} already exists")
         self.contacts.append(contact)
         self.refresh_current_results()
-        self.logger.info("Contact '%s'(id=%s) created", contact.full_name, contact.id)
+        self.logger.info("Contact '%s'(id=%s) created", contact.full_name, contact.contact_id)
 
     def retrieve_contacts_by_name(self, name: str) -> List[Contact]:
         return [
@@ -63,17 +63,17 @@ class PhoneBook:
         return [contact for contact in self.contacts if phone_number in contact.phone_number]
 
     def retrieve_contacts_by_id(self, contact_id: str) -> List[Contact]:
-        contacts = [contact for contact in self.contacts if contact_id == contact.id]
+        contacts = [contact for contact in self.contacts if contact_id == contact.contact_id]
         return contacts
 
     def delete_contact(self, contact: Contact):
         if contact not in self.contacts:
-            raise ContactIsNotRegisteredException(f"Contact {contact.id} is not registered")
+            raise ContactIsNotRegisteredException(f"Contact {contact.contact_id} is not registered")
         self.contacts.remove(contact)
-        self.logger.info("Contact '%s'(id=%s) deleted", contact.full_name, contact.id)
+        self.logger.info("Contact '%s'(id=%s) deleted", contact.full_name, contact.contact_id)
 
     def delete_contacts_by_id(self, contact_id: str):
-        contacts = [contact for contact in self.contacts if contact_id == contact.id]
+        contacts = [contact for contact in self.contacts if contact_id == contact.contact_id]
         if len(contacts) == 0:
             raise NoContactsMatchedException(f"No contacts matched id: {contact_id}")
         for contact in contacts:
@@ -85,7 +85,7 @@ class PhoneBook:
         self.current_results = list(filter(
             lambda contact: contact.matches(self.contact_filter),
             self.contacts))
-        self.current_results = self.sort_values(self.current_results, self.contact_filter)
+        # self.current_results = self.sort_values(self.current_results, self.contact_filter)
         return self.current_results
 
     def refresh_current_results(self):

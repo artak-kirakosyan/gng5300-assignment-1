@@ -18,7 +18,7 @@ class ContactPrinter:
         email = contact.email if contact.email is not None else "--"
         address = contact.address if contact.address is not None else "--"
 
-        contact_line = f'{contact.id: <{40}} ' \
+        contact_line = f'{contact.contact_id: <{40}} ' \
                        f'{contact.first_name: <{self._indent_size}} ' \
                        f'{contact.last_name: <{self._indent_size}} ' \
                        f'{contact.phone_number: <{self._indent_size}} ' \
