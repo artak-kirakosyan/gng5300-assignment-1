@@ -5,7 +5,7 @@ from typing import List
 
 from audit import get_logger_by_name
 from contacts.contact import Contact
-from contacts.filter import ContactFilter
+from contacts.filter import ContactFilter, ContactSort
 from exceptions.exceptions import ContactAlreadyExistsException, NoContactsMatchedException, \
     ContactIsNotRegisteredException
 
@@ -92,8 +92,28 @@ class PhoneBook:
         self.apply(self.contact_filter)
 
     @staticmethod
-    def sort_values(contacts: List[Contact], contact_filter: ContactFilter) -> List[Contact]:
-        """Implement me"""
+    def sort_values(contacts: List[Contact], contact_filter: 'ContactFilter') -> List[Contact]:
         if contact_filter is None:
             return contacts
-        return contacts
+
+        # Define a sorting key function based on the sort_field enum
+        def sorting_key(contact):
+            if contact_filter.sort_field == ContactSort.ID:
+                return contact.contact_id
+            elif contact_filter.sort_field == ContactSort.FIRST_NAME:
+                return contact.first_name
+            elif contact_filter.sort_field == ContactSort.LAST_NAME:
+                return contact.last_name
+            elif contact_filter.sort_field == ContactSort.PHONE_NUMBER:
+                return contact.phone_number
+            elif contact_filter.sort_field == ContactSort.CREATED_DATE:
+                return contact.created_date
+            elif contact_filter.sort_field == ContactSort.UPDATED_DATE:
+                return contact.updated_date
+            else:
+                # Handle the case where an unsupported sort field is specified
+                return contact.updated_date  # Default to sorting by updated date
+
+        # Sort the contacts based on the sorting key and the ascending flag
+        sorted_contacts = sorted(contacts, key=sorting_key, reverse=not contact_filter.ascending)
+        return sorted_contacts

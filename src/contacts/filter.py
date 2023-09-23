@@ -6,12 +6,12 @@ from contacts.contact import Contact
 
 
 class ContactSort(Enum):
-    ID = auto
-    FIRST_NAME = auto
-    LAST_NAME = auto
-    PHONE_NUMBER = auto
-    CREATED_DATE = auto
-    UPDATED_DATE = auto
+    ID = auto(),
+    FIRST_NAME = auto(),
+    LAST_NAME = auto(),
+    PHONE_NUMBER = auto(),
+    CREATED_DATE = auto(),
+    UPDATED_DATE = auto(),
 
     def __str__(self):
         return self.name

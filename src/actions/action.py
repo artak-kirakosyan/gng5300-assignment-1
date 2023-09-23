@@ -108,5 +108,5 @@ class ShowCurrentContacts(Action):
             print("No contacts matching current filter")
             return
         print(printer.get_headers())
-        for contact in phone_book.contacts:
+        for contact in phone_book.current_results:
             print(printer.to_line(contact))
