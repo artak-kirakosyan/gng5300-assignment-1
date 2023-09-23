@@ -97,22 +97,16 @@ class PhoneBook:
             return contacts
 
         # Define a sorting key function based on the sort_field enum
-        def sorting_key(contact):
-            if contact_filter.sort_field == ContactSort.ID:
-                return contact.contact_id
-            elif contact_filter.sort_field == ContactSort.FIRST_NAME:
-                return contact.first_name
-            elif contact_filter.sort_field == ContactSort.LAST_NAME:
-                return contact.last_name
-            elif contact_filter.sort_field == ContactSort.PHONE_NUMBER:
-                return contact.phone_number
-            elif contact_filter.sort_field == ContactSort.CREATED_DATE:
-                return contact.created_date
-            elif contact_filter.sort_field == ContactSort.UPDATED_DATE:
-                return contact.updated_date
-            else:
-                # Handle the case where an unsupported sort field is specified
-                return contact.updated_date  # Default to sorting by updated date
+        def sorting_key(one: 'Contact'):
+            key_map = {
+                ContactSort.ID: one.contact_id,
+                ContactSort.FIRST_NAME: one.first_name,
+                ContactSort.LAST_NAME: one.last_name,
+                ContactSort.PHONE_NUMBER: one.phone_number,
+                ContactSort.CREATED_DATE: one.created_date,
+                ContactSort.UPDATED_DATE: one.updated_date
+            }
+            return key_map.get(contact_filter.sort_field, one.updated_date)
 
         # Sort the contacts based on the sorting key and the ascending flag
         sorted_contacts = sorted(contacts, key=sorting_key, reverse=not contact_filter.ascending)
