@@ -14,6 +14,10 @@ class InvalidEmailException(BasePhoneBookException):
     """Throw when the email is not valid"""
 
 
+class InvalidNameException(BasePhoneBookException):
+    """Throw when the name is not valid"""
+
+
 class ContactAlreadyExistsException(BasePhoneBookException):
     """Throw when the contact with a given id already exists"""
 

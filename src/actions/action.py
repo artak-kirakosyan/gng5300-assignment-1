@@ -3,22 +3,9 @@ import abc
 from audit import get_logger_by_name
 from contacts.contact import Contact
 from contacts.contact_printer import ContactPrinter
-from exceptions.exceptions import TerminateActionLoopException, InvalidActionException
+from exceptions.exceptions import TerminateActionLoopException
 from phone_book.phone_book import PhoneBook
-
-
-def get_boolean_from_user(message: str) -> bool:
-    user_input = input(message)
-    inp = user_input.lower()
-    valid_yes = ['yes', 'y']
-    valid_no = ['no', 'n']
-    if inp in valid_yes:
-        user_boolean = True
-    elif inp in valid_no:
-        user_boolean = False
-    else:
-        raise InvalidActionException("Invalid action")
-    return user_boolean
+from util.user_input import get_boolean_from_user
 
 
 class Action(abc.ABC):
@@ -39,9 +26,9 @@ class ContactCreateAction(Action):
     logger = get_logger_by_name("ContactCreateLogger")
 
     def execute(self, phone_book: PhoneBook):
-        contact = Contact.create_contract_from_command_line()
+        contact = Contact.create_contact_from_command_line()
         phone_book.add_contact(contact)
-        print(f"Contact '{contact.full_name}'(id={contact.contact_id}) created")
+        print(f"Contact '{contact.full_name}'(id={contact.id}) created")
 
 
 class ExitAction(Action):
@@ -57,10 +44,10 @@ class ShowContacts(Action):
     logger = get_logger_by_name("ShowLogger")
 
     def execute(self, phone_book: PhoneBook):
-        printer = ContactPrinter()
         if len(phone_book.contacts) == 0:
             print("No contacts")
             return
+        printer = ContactPrinter()
         print(printer.get_headers())
         for contact in phone_book.contacts:
             print(printer.to_line(contact))
@@ -96,7 +83,6 @@ class DeleteCurrentResults(Action):
         if len(phone_book.current_results) == 0:
             print("No contacts matching current filter")
             return
-        print(f"Current filter matches {len(phone_book.current_results)} contacts shown below")
         ShowCurrentContacts().execute(phone_book)
         is_sure = get_boolean_from_user(
             "Are you sure you want to delete all these contacts? (Type 'Yes' or 'Y' to confirm): "
@@ -117,6 +103,7 @@ class ShowCurrentContacts(Action):
         printer = ContactPrinter()
         print("Current filter is:")
         print(phone_book.contact_filter)
+        print(f"Current filter matches {len(phone_book.current_results)} contacts shown below")
         if len(phone_book.current_results) == 0:
             print("No contacts matching current filter")
             return
