@@ -1,3 +1,5 @@
+from typing import List
+
 from contacts.contact import Contact
 
 
@@ -25,3 +27,11 @@ class ContactPrinter:
                        f'{email: <{self._indent_size}} ' \
                        f'{address: <{self._indent_size}}'
         return contact_line
+
+    def print_contacts(self, contacts: List[Contact]):
+        if len(contacts) == 0:
+            print("No contacts matching current filter")
+            return
+        print(self.get_headers())
+        for contact in contacts:
+            print(self.to_line(contact))

@@ -7,6 +7,7 @@ from contacts.contact_printer import ContactPrinter
 from contacts.filter import ContactFilter
 from exceptions.exceptions import TerminateActionLoopException
 from phone_book.phone_book import PhoneBook
+from util.grouping import group_and_print
 from util.user_input import get_boolean_from_user
 
 
@@ -105,16 +106,11 @@ class ShowCurrentContacts(Action):
     logger = get_logger_by_name("ShowCurrentContacts")
 
     def execute(self, phone_book: PhoneBook):
-        printer = ContactPrinter()
         print("Current filter is:")
         print(phone_book.contact_filter)
         print(f"Current filter matches {len(phone_book.current_results)} contacts shown below")
-        if len(phone_book.current_results) == 0:
-            print("No contacts matching current filter")
-            return
-        print(printer.get_headers())
-        for contact in phone_book.current_results:
-            print(printer.to_line(contact))
+        printer = ContactPrinter()
+        printer.print_contacts(phone_book.current_results)
 
 
 class ResetFilter(Action):
@@ -145,3 +141,21 @@ class EditContact(Action):
         contact = contacts[0]
         ContactEditor.update_from_command_line(contact)
         print(f"Contact {contact.contact_id} updated")
+
+
+class GroupByLastNameFirstLetter(Action):
+    name = "Group By Last Name First Letter"
+    logger = get_logger_by_name("GroupByLastNameFirstLetter")
+
+    def execute(self, phone_book: PhoneBook):
+        contacts = phone_book.contacts
+        group_and_print(contacts, lambda contact: contact.last_name[0])
+
+
+class GroupCurrentContactsByLastNameFirstLetter(Action):
+    name = "Group Current Contacts By Last Name First Letter"
+    logger = get_logger_by_name("GroupCurrentContactsByLastNameFirstLetter")
+
+    def execute(self, phone_book: PhoneBook):
+        contacts = phone_book.current_results
+        group_and_print(contacts, lambda contact: contact.last_name[0])

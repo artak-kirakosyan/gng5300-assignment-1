@@ -1,7 +1,8 @@
 """
 This module contains the definition of the PhoneBook entry
 """
-from typing import List
+from collections import defaultdict
+from typing import List, Dict, Callable
 
 from audit import get_logger_by_name
 from contacts.contact import Contact
@@ -111,3 +112,15 @@ class PhoneBook:
         # Sort the contacts based on the sorting key and the ascending flag
         sorted_contacts = sorted(contacts, key=sorting_key, reverse=not contact_filter.ascending)
         return sorted_contacts
+
+    @classmethod
+    def get_grouped_by(
+            cls,
+            contacts: List[Contact],
+            key: Callable[[Contact], str]
+    ) -> Dict[str, List[Contact]]:
+        groups = defaultdict(list)
+        for contact in contacts:
+            contact_key = key(contact)
+            groups[contact_key].append(contact)
+        return groups
