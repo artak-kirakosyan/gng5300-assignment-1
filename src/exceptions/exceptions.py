@@ -36,3 +36,7 @@ class InvalidActionException(BasePhoneBookException):
 
 class InvalidInputException(BasePhoneBookException):
     """Throw when the user enters invalid data"""
+
+
+class ImportFailedException(BasePhoneBookException):
+    """Throw when the import file reading fails"""

@@ -24,6 +24,11 @@ class PhoneBook:
         self.contact_filter = ContactFilter()
         self.refresh_current_results()
 
+    @classmethod
+    def from_file(cls, file_path: str) -> 'PhoneBook':
+        contacts = Contact.bulk_create_contacts_from_csv(file_path)
+        return cls(contacts)
+
     @property
     def contacts(self):
         return self._contacts

@@ -1,13 +1,15 @@
 """
 This module contains the definition of the Contact entry
 """
+import csv
 import datetime
 import re
 import uuid
-from typing import Optional
+from typing import Optional, List, Dict
 
 from audit import get_logger_by_name
-from exceptions.exceptions import InvalidPhoneNumberException, InvalidEmailException, InvalidNameException
+from exceptions.exceptions import InvalidPhoneNumberException, InvalidEmailException, InvalidNameException, \
+    ImportFailedException
 
 
 class Contact:
@@ -130,7 +132,7 @@ class Contact:
         if phone_number is None:
             raise InvalidPhoneNumberException("Phone number is required")
         if cls._PHONE_NUMBER_PATTERN.match(phone_number) is None:
-            raise InvalidPhoneNumberException("Phone number should be of the form (###) ###-####")
+            raise InvalidPhoneNumberException(f"Invalid value {phone_number}, should be of the form (###) ###-####")
 
     @classmethod
     def validate_email(cls, email: str):
@@ -190,3 +192,28 @@ class Contact:
             last_name = None
         cls.validate_name(last_name)
         return last_name
+
+    @classmethod
+    def bulk_create_contacts_from_csv(cls, file_path: str) -> List['Contact']:
+        contacts = []
+        try:
+            with open(file_path, mode='r', newline='') as csv_file:
+                csv_reader = csv.DictReader(csv_file)
+                for row in csv_reader:
+                    contact = Contact.from_dict(row)
+                    contacts.append(contact)
+
+            return contacts
+        except Exception as exc:
+            raise ImportFailedException("Failed to import contacts from the file") from exc
+
+    @classmethod
+    def from_dict(cls, row: Dict) -> 'Contact':
+        first_name = row.get('First Name')
+        last_name = row.get('Last Name')
+        phone_number = row.get('Phone Number')
+        email = row.get('Email')
+        address = row.get('Address')
+
+        contact = cls(first_name, last_name, phone_number, email, address)
+        return contact

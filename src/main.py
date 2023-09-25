@@ -1,14 +1,9 @@
-from contacts.contact import Contact
 from phone_book.phone_book import PhoneBook
 from phone_book.phone_book_controller import PhoneBookController
 
 
 def main():
-    contacts = [
-        Contact("Artak", "Kirakosyan", "(443) 234-1313"),
-        Contact("Artak", "Kirakosyan", "(443) 234-1313", "akira@uottawea.ca")
-    ]
-    phone_book = PhoneBook(contacts)
+    phone_book = PhoneBook.from_file("/home/artak/Documents/python/gng5300-assignment-1/a.csv")
     controller = PhoneBookController(phone_book)
     controller.run()
 

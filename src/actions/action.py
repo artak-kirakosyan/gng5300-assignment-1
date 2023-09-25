@@ -159,3 +159,16 @@ class GroupCurrentContactsByLastNameFirstLetter(Action):
     def execute(self, phone_book: PhoneBook):
         contacts = phone_book.current_results
         group_and_print(contacts, lambda contact: contact.last_name[0])
+
+
+class ImportFromFile(Action):
+    name = "Import From File"
+    logger = get_logger_by_name("ImportFromFile")
+
+    def execute(self, phone_book: PhoneBook):
+        file_path = input("Insert the full path to the CSV file: ")
+        contacts = Contact.bulk_create_contacts_from_csv(file_path)
+        print(f"Imported {len(contacts)} contacts")
+        for contact in contacts:
+            phone_book.add_contact(contact)
+        print(f"All {len(contacts)} contacts have been saved")
