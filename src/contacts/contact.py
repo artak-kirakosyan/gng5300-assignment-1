@@ -197,7 +197,7 @@ class Contact:
     def bulk_create_contacts_from_csv(cls, file_path: str) -> List['Contact']:
         contacts = []
         try:
-            with open(file_path, mode='r', newline='') as csv_file:
+            with open(file_path, mode='r', newline='', encoding="utf-8") as csv_file:
                 csv_reader = csv.DictReader(csv_file)
                 for row in csv_reader:
                     contact = Contact.from_dict(row)
