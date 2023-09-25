@@ -12,16 +12,17 @@ class TestPhoneBookController(unittest.TestCase):
             phone_book_controller.show_actions()
             output = mock_stdout.getvalue()
 
-        self.assertIn("1 - Create Contact", output)
-        self.assertIn("2 - Show Contacts", output)
-        self.assertIn("3 - Delete Contact", output)
-        self.assertIn("4 - Delete Current Results", output)
-        self.assertIn("5 - Show Current Contacts", output)
-        self.assertIn("6 - Update Filter", output)
-        self.assertIn("7 - Reset Filter", output)
-        self.assertIn("8 - Exit", output)
+        self.assertIn("1 - Show Contacts", output)
+        self.assertIn("2 - Create Contact", output)
+        self.assertIn("3 - Edit Contact", output)
+        self.assertIn("4 - Delete Contact", output)
+        self.assertIn("5 - Delete Current Results", output)
+        self.assertIn("6 - Show Current Contacts", output)
+        self.assertIn("7 - Update Filter", output)
+        self.assertIn("8 - Reset Filter", output)
+        self.assertIn("9 - Exit", output)
 
-    @patch("builtins.input", side_effect=["8"])
+    @patch("builtins.input", side_effect=["9"])
     def test_run_exit_action(self, mock_input=None):
         assert mock_input
         phone_book_controller = PhoneBookController()

@@ -141,8 +141,8 @@ class Contact:
 
     @classmethod
     def create_contact_from_command_line(cls) -> 'Contact':
-        first_name = cls._get_validated_first_name()
-        last_name = cls._get_validated_last_name()
+        first_name = cls.get_validated_first_name()
+        last_name = cls.get_validated_last_name()
         phone_number = cls.get_validated_phone_number()
         email = cls.get_validated_email()
         address = cls.get_validated_address()
@@ -171,7 +171,7 @@ class Contact:
         return email
 
     @classmethod
-    def _get_validated_first_name(cls):
+    def get_validated_first_name(cls):
         first_name = input("Enter First Name: ")
         if first_name == "":
             first_name = None
@@ -179,7 +179,7 @@ class Contact:
         return first_name
 
     @classmethod
-    def _get_validated_last_name(cls):
+    def get_validated_last_name(cls):
         last_name = input("Enter Last Name: ")
         if last_name == "":
             last_name = None
