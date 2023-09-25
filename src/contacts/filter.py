@@ -60,7 +60,7 @@ class ContactFilter:
         print(f"Current value of 'Search Query' is {old.search_query}")
         should_update = get_boolean_from_user()
         if should_update:
-            new_value = input("Type in the new search query: ")
+            new_value = input("Type in the new search query(type query components separated by a space): ")
             if new_value == "":
                 new_value = None
             old.search_query = new_value
@@ -186,4 +186,8 @@ class ContactFilter:
             return False
         if search_query is None:
             return True
-        return search_query.lower() in value.lower()
+        if " " in search_query:
+            queries = search_query.split(" ")
+        else:
+            queries = [search_query]
+        return any(query.lower() in value.lower() for query in queries)

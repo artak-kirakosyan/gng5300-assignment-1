@@ -23,6 +23,13 @@ class TestContactFilter(unittest.TestCase):
         self.assertTrue(contact_filter.is_matching_max_created_date(self.jane, contact_filter))
         self.assertFalse(contact_filter.is_matching_max_created_date(self.joe, contact_filter))
 
+    def test_matches_wildcard(self):
+        contact_filter = ContactFilter()
+        contact_filter.search_query = "ne th"
+        self.assertFalse(contact_filter.matches(self.john, contact_filter))
+        self.assertTrue(contact_filter.matches(self.jane, contact_filter))
+        self.assertTrue(contact_filter.matches(self.joe, contact_filter))
+
     def test_matches(self):
         contact_filter = ContactFilter()
         contact_filter.search_query = "John"
