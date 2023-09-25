@@ -1,8 +1,11 @@
 import datetime
+from copy import copy
 from enum import Enum, auto
 from typing import Optional, Callable, List
 
 from contacts.contact import Contact
+from exceptions.exceptions import InvalidInputException
+from util.user_input import get_boolean_from_user, get_datetime_from_user
 
 
 class ContactSort(Enum):
@@ -41,8 +44,85 @@ class ContactFilter:
         return filter_str
 
     @classmethod
-    def update_from_command_line(cls, old: 'ContactFilter'):
-        """Implement me"""
+    def get_updated_filter_from_command_line(cls, old: 'ContactFilter'):
+        new_filter = copy(old)
+        new_filter = cls.update_search_query(new_filter)
+        new_filter = cls.update_min_created_date(new_filter)
+        new_filter = cls.update_max_created_date(new_filter)
+        new_filter = cls.update_min_updated_date(new_filter)
+        new_filter = cls.update_max_updated_date(new_filter)
+        new_filter = cls.update_sort_ascending(new_filter)
+        new_filter = cls.update_sort_field(new_filter)
+        return new_filter
+
+    @classmethod
+    def update_search_query(cls, old: 'ContactFilter') -> 'ContactFilter':
+        print(f"Current value of 'Search Query' is {old.search_query}")
+        should_update = get_boolean_from_user()
+        if should_update:
+            new_value = input("Type in the new search query: ")
+            if new_value == "":
+                new_value = None
+            old.search_query = new_value
+        return old
+
+    @classmethod
+    def update_min_created_date(cls, old: 'ContactFilter') -> 'ContactFilter':
+        print(f"Current value of 'Min Created Date' is {old.min_created_date}")
+        should_update = get_boolean_from_user()
+        if should_update:
+            new_value = get_datetime_from_user("Type in the date: ")
+            old.min_created_date = new_value
+        return old
+
+    @classmethod
+    def update_max_created_date(cls, old: 'ContactFilter') -> 'ContactFilter':
+        print(f"Current value of 'Max Created Date' is {old.max_created_date}")
+        should_update = get_boolean_from_user()
+        if should_update:
+            new_value = get_datetime_from_user("Type in the date: ")
+            old.max_created_date = new_value
+        return old
+
+    @classmethod
+    def update_min_updated_date(cls, old: 'ContactFilter') -> 'ContactFilter':
+        print(f"Current value of 'Min Updated Date' is {old.min_updated_date}")
+        should_update = get_boolean_from_user()
+        if should_update:
+            new_value = get_datetime_from_user("Type in the date: ")
+            old.min_updated_date = new_value
+        return old
+
+    @classmethod
+    def update_max_updated_date(cls, old: 'ContactFilter') -> 'ContactFilter':
+        print(f"Current value of 'Max Updated Date' is {old.max_updated_date}")
+        should_update = get_boolean_from_user()
+        if should_update:
+            new_value = get_datetime_from_user("Type in the date: ")
+            old.max_updated_date = new_value
+        return old
+
+    @classmethod
+    def update_sort_ascending(cls, old: 'ContactFilter') -> 'ContactFilter':
+        print(f"Current value of 'Is Sort Ascending' is {old.ascending}")
+        should_update = get_boolean_from_user()
+        if should_update:
+            new_value = get_boolean_from_user("Do you want to keep the sort ascending?(Type 'Yes' or 'No':")
+            old.ascending = new_value
+        return old
+
+    @classmethod
+    def update_sort_field(cls, old: 'ContactFilter') -> 'ContactFilter':
+        print(f"Current value of 'Sort Field' is {old.sort_field}")
+        should_update = get_boolean_from_user()
+        if should_update:
+            choice = input("Select a sort field: ")
+            try:
+                new_value = ContactSort[choice]
+            except KeyError as error:
+                raise InvalidInputException("Invalid sort field") from error
+            old.sort_field = new_value
+        return old
 
     @classmethod
     def matches(cls, contact: Contact, contact_filter: 'ContactFilter'):
