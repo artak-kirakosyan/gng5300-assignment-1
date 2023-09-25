@@ -32,3 +32,7 @@ class ContactIsNotRegisteredException(BasePhoneBookException):
 
 class InvalidActionException(BasePhoneBookException):
     """Throw when an invalid action is selected by the user"""
+
+
+class InvalidInputException(BasePhoneBookException):
+    """Throw when the user enters invalid data"""

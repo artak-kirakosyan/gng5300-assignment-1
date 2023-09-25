@@ -3,6 +3,7 @@ import abc
 from audit import get_logger_by_name
 from contacts.contact import Contact
 from contacts.contact_printer import ContactPrinter
+from contacts.filter import ContactFilter
 from exceptions.exceptions import TerminateActionLoopException
 from phone_book.phone_book import PhoneBook
 from util.user_input import get_boolean_from_user
@@ -71,7 +72,10 @@ class UpdateFilter(Action):
     logger = get_logger_by_name("UpdateFilter")
 
     def execute(self, phone_book: PhoneBook):
-        """Implement me"""
+        old_filter = phone_book.contact_filter
+        updated_filter = ContactFilter.get_updated_filter_from_command_line(old_filter)
+        phone_book.apply(updated_filter)
+        ShowCurrentContacts().execute(phone_book)
 
 
 class DeleteCurrentResults(Action):
@@ -110,3 +114,13 @@ class ShowCurrentContacts(Action):
         print(printer.get_headers())
         for contact in phone_book.current_results:
             print(printer.to_line(contact))
+
+
+class ResetFilter(Action):
+    name = "Reset Filter"
+    logger = get_logger_by_name("ResetFilter")
+
+    def execute(self, phone_book: PhoneBook):
+        new_filter = ContactFilter()
+        phone_book.apply(new_filter)
+        print("Filter is reset")

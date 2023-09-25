@@ -18,9 +18,10 @@ class TestPhoneBookController(unittest.TestCase):
         self.assertIn("4 - Delete Current Results", output)
         self.assertIn("5 - Show Current Contacts", output)
         self.assertIn("6 - Update Filter", output)
-        self.assertIn("7 - Exit", output)
+        self.assertIn("7 - Reset Filter", output)
+        self.assertIn("8 - Exit", output)
 
-    @patch("builtins.input", side_effect=["7"])
+    @patch("builtins.input", side_effect=["8"])
     def test_run_exit_action(self, mock_input=None):
         assert mock_input
         phone_book_controller = PhoneBookController()
