@@ -186,4 +186,8 @@ class ContactFilter:
             return False
         if search_query is None:
             return True
-        return search_query.lower() in value.lower()
+        if " " in search_query:
+            queries = search_query.split(" ")
+        else:
+            queries = [search_query]
+        return any(query.lower() in value.lower() for query in queries)
