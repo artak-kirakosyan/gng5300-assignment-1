@@ -2,6 +2,7 @@ import abc
 
 from audit import get_logger_by_name
 from contacts.contact import Contact
+from contacts.contact_editor import ContactEditor
 from contacts.contact_printer import ContactPrinter
 from contacts.filter import ContactFilter
 from exceptions.exceptions import TerminateActionLoopException
@@ -124,3 +125,23 @@ class ResetFilter(Action):
         new_filter = ContactFilter()
         phone_book.apply(new_filter)
         print("Filter is reset")
+        ShowCurrentContacts().execute(phone_book)
+
+
+class EditContact(Action):
+    name = "Edit Contact"
+    logger = get_logger_by_name("EditContact")
+
+    def execute(self, phone_book: PhoneBook):
+        contact_id = input("Enter the contact id to delete: ")
+        contacts = phone_book.retrieve_contacts_by_id(contact_id)
+
+        if len(contacts) == 0:
+            print("No contact found, can't edit")
+            return
+        if len(contacts) > 1:
+            print(f"Too many contacts matched {contact_id}, delete them to make a unique selection")
+            return
+        contact = contacts[0]
+        ContactEditor.update_from_command_line(contact)
+        print(f"Contact {contact.contact_id} updated")

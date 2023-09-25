@@ -68,6 +68,7 @@ class Contact:
         self.validate_name(value)
         self._first_name = value
         self.__refresh_updated_date()
+        self.logger.info("First name of %s updated to %s", self.contact_id, self.first_name)
 
     @property
     def last_name(self):
@@ -78,6 +79,7 @@ class Contact:
         self.validate_name(value)
         self._last_name = value
         self.__refresh_updated_date()
+        self.logger.info("Last name of %s updated to %s", self.contact_id, self.last_name)
 
     @property
     def phone_number(self):
@@ -88,6 +90,7 @@ class Contact:
         self.validate_phone_number(value)
         self._phone_number = value
         self.__refresh_updated_date()
+        self.logger.info("Phone number of %s updated to %s", self.contact_id, self.phone_number)
 
     @property
     def email(self):
@@ -98,6 +101,7 @@ class Contact:
         self.validate_email(value)
         self._email = value
         self.__refresh_updated_date()
+        self.logger.info("Email of %s updated to %s", self.contact_id, self.email)
 
     @property
     def address(self):
@@ -107,6 +111,7 @@ class Contact:
     def address(self, value: Optional[str]):
         self._address = value
         self.__refresh_updated_date()
+        self.logger.info("Address of %s updated to %s", self.contact_id, self.address)
 
     @property
     def created_date(self):
@@ -141,8 +146,8 @@ class Contact:
 
     @classmethod
     def create_contact_from_command_line(cls) -> 'Contact':
-        first_name = cls._get_validated_first_name()
-        last_name = cls._get_validated_last_name()
+        first_name = cls.get_validated_first_name()
+        last_name = cls.get_validated_last_name()
         phone_number = cls.get_validated_phone_number()
         email = cls.get_validated_email()
         address = cls.get_validated_address()
@@ -171,7 +176,7 @@ class Contact:
         return email
 
     @classmethod
-    def _get_validated_first_name(cls):
+    def get_validated_first_name(cls):
         first_name = input("Enter First Name: ")
         if first_name == "":
             first_name = None
@@ -179,7 +184,7 @@ class Contact:
         return first_name
 
     @classmethod
-    def _get_validated_last_name(cls):
+    def get_validated_last_name(cls):
         last_name = input("Enter Last Name: ")
         if last_name == "":
             last_name = None
