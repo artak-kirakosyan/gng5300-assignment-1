@@ -1,6 +1,5 @@
 import abc
 
-from audit import get_logger_by_name
 from contacts.contact import Contact
 from contacts.contact_editor import ContactEditor
 from contacts.contact_printer import ContactPrinter
@@ -26,7 +25,6 @@ class Action(abc.ABC):
 
 class ContactCreateAction(Action):
     name = "Create Contact"
-    logger = get_logger_by_name("ContactCreateLogger")
 
     def execute(self, phone_book: PhoneBook):
         contact = Contact.create_contact_from_command_line()
@@ -36,7 +34,6 @@ class ContactCreateAction(Action):
 
 class ExitAction(Action):
     name = "Exit"
-    logger = get_logger_by_name("ExitLogger")
 
     def execute(self, phone_book: PhoneBook):
         raise TerminateActionLoopException()
@@ -44,7 +41,6 @@ class ExitAction(Action):
 
 class ShowContacts(Action):
     name = "Show Contacts"
-    logger = get_logger_by_name("ShowLogger")
 
     def execute(self, phone_book: PhoneBook):
         if len(phone_book.contacts) == 0:
@@ -58,7 +54,6 @@ class ShowContacts(Action):
 
 class DeleteContact(Action):
     name = "Delete Contact"
-    logger = get_logger_by_name("DeleteLogger")
 
     def execute(self, phone_book: PhoneBook):
         contact_id = input("Enter the contact id to delete: ")
@@ -71,7 +66,6 @@ class DeleteContact(Action):
 
 class UpdateFilter(Action):
     name = "Update Filter"
-    logger = get_logger_by_name("UpdateFilter")
 
     def execute(self, phone_book: PhoneBook):
         old_filter = phone_book.contact_filter
@@ -82,7 +76,6 @@ class UpdateFilter(Action):
 
 class DeleteCurrentResults(Action):
     name = "Delete Current Results"
-    logger = get_logger_by_name("DeleteCurrentResults")
 
     def execute(self, phone_book: PhoneBook):
         """Show how many results are there currently, ask for confirmation and delete"""
@@ -103,7 +96,6 @@ class DeleteCurrentResults(Action):
 
 class ShowCurrentContacts(Action):
     name = "Show Current Contacts"
-    logger = get_logger_by_name("ShowCurrentContacts")
 
     def execute(self, phone_book: PhoneBook):
         print("Current filter is:")
@@ -115,7 +107,6 @@ class ShowCurrentContacts(Action):
 
 class ResetFilter(Action):
     name = "Reset Filter"
-    logger = get_logger_by_name("ResetFilter")
 
     def execute(self, phone_book: PhoneBook):
         new_filter = ContactFilter()
@@ -126,7 +117,6 @@ class ResetFilter(Action):
 
 class EditContact(Action):
     name = "Edit Contact"
-    logger = get_logger_by_name("EditContact")
 
     def execute(self, phone_book: PhoneBook):
         contact_id = input("Enter the contact id to delete: ")
@@ -145,7 +135,6 @@ class EditContact(Action):
 
 class GroupByLastNameFirstLetter(Action):
     name = "Group By Last Name First Letter"
-    logger = get_logger_by_name("GroupByLastNameFirstLetter")
 
     def execute(self, phone_book: PhoneBook):
         contacts = phone_book.contacts
@@ -154,7 +143,6 @@ class GroupByLastNameFirstLetter(Action):
 
 class GroupCurrentContactsByLastNameFirstLetter(Action):
     name = "Group Current Contacts By Last Name First Letter"
-    logger = get_logger_by_name("GroupCurrentContactsByLastNameFirstLetter")
 
     def execute(self, phone_book: PhoneBook):
         contacts = phone_book.current_results
@@ -163,7 +151,6 @@ class GroupCurrentContactsByLastNameFirstLetter(Action):
 
 class ImportFromFile(Action):
     name = "Import From File"
-    logger = get_logger_by_name("ImportFromFile")
 
     def execute(self, phone_book: PhoneBook):
         file_path = input("Insert the full path to the CSV file: ")
