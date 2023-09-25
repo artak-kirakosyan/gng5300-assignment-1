@@ -16,13 +16,15 @@ class TestPhoneBookController(unittest.TestCase):
         self.assertIn("2 - Create Contact", output)
         self.assertIn("3 - Edit Contact", output)
         self.assertIn("4 - Delete Contact", output)
-        self.assertIn("5 - Delete Current Results", output)
-        self.assertIn("6 - Show Current Contacts", output)
-        self.assertIn("7 - Update Filter", output)
-        self.assertIn("8 - Reset Filter", output)
-        self.assertIn("9 - Exit", output)
+        self.assertIn("5 - Group By Last Name First Letter", output)
+        self.assertIn("6 - Group Current Contacts By Last Name First Letter", output)
+        self.assertIn("7 - Delete Current Results", output)
+        self.assertIn("8 - Show Current Contacts", output)
+        self.assertIn("9 - Update Filter", output)
+        self.assertIn("10 - Reset Filter", output)
+        self.assertIn("11 - Exit", output)
 
-    @patch("builtins.input", side_effect=["9"])
+    @patch("builtins.input", side_effect=["11"])
     def test_run_exit_action(self, mock_input=None):
         assert mock_input
         phone_book_controller = PhoneBookController()
