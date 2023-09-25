@@ -116,7 +116,7 @@ class ContactFilter:
         print(f"Current value of 'Sort Field' is {old.sort_field}")
         should_update = get_boolean_from_user()
         if should_update:
-            choice = input("Select a sort field: ")
+            choice = input(f"Select a sort field(should be one of {[e.name for e in ContactSort]}): ")
             try:
                 new_value = ContactSort[choice]
             except KeyError as error:

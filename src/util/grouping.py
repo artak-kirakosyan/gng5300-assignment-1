@@ -12,6 +12,6 @@ def group_and_print(contacts: List[Contact], key: Callable[[Contact], str]):
     groups = PhoneBook.get_grouped_by(contacts, key)
     printer = ContactPrinter()
     for name, group in groups.items():
-        print(name)
+        print(f"Group Name: {name}")
         print('-' * 20)
         printer.print_contacts(group)

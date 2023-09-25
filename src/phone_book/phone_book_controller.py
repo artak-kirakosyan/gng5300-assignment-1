@@ -5,7 +5,7 @@ from typing import Optional, Dict, Set
 
 from actions.action import ContactCreateAction, ExitAction, Action, ShowContacts, DeleteContact, UpdateFilter, \
     DeleteCurrentResults, ShowCurrentContacts, ResetFilter, EditContact, GroupByLastNameFirstLetter, \
-    GroupCurrentContactsByLastNameFirstLetter
+    GroupCurrentContactsByLastNameFirstLetter, ImportFromFile
 from audit import get_logger_by_name
 from exceptions.exceptions import TerminateActionLoopException, BasePhoneBookException
 from phone_book.phone_book import PhoneBook
@@ -24,6 +24,7 @@ class PhoneBookController:
         ShowCurrentContacts,
         UpdateFilter,
         ResetFilter,
+        ImportFromFile,
         ExitAction
     ]
     _phone_book: PhoneBook

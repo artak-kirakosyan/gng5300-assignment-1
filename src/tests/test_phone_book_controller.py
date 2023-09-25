@@ -22,9 +22,10 @@ class TestPhoneBookController(unittest.TestCase):
         self.assertIn("8 - Show Current Contacts", output)
         self.assertIn("9 - Update Filter", output)
         self.assertIn("10 - Reset Filter", output)
-        self.assertIn("11 - Exit", output)
+        self.assertIn("11 - Import From File", output)
+        self.assertIn("12 - Exit", output)
 
-    @patch("builtins.input", side_effect=["11"])
+    @patch("builtins.input", side_effect=["12"])
     def test_run_exit_action(self, mock_input=None):
         assert mock_input
         phone_book_controller = PhoneBookController()
